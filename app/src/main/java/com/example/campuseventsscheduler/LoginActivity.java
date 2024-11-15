@@ -1,72 +1,83 @@
 package com.example.campuseventsscheduler;
 
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
     private Button signUpButton;
-    private FirebaseAuth mAuth;
+
+    // Add SharedPreferences
+    private SharedPreferences sharedPreferences;
+    private static final String PREF_NAME = "LoginPrefs";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // Changed from activity_main
 
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
-        // Initialize UI components
+        // Check if user is already logged in
+        if (sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)) {
+            // User is logged in, go directly to EventsPage
+            startActivity(new Intent(LoginActivity.this, EventsPage.class));
+            finish(); // Prevent returning to login screen
+            return;
+        }
+
+        setContentView(R.layout.activity_main);
+
+        // Your existing login setup code here
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.LoginButton);
         signUpButton = findViewById(R.id.signUpButton);
 
-        // Set click listener for the login button
-        loginButton.setOnClickListener(v -> onLogin());
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-        // Set click listener for the sign-up button
-        signUpButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            startActivity(intent);
-            // Removed finish() to allow users to go back to login
+                // Your existing login validation logic here
+                if (isValidLogin(username, password)) {
+                    // Save login state
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(KEY_IS_LOGGED_IN, true);
+                    editor.apply();
+
+                    // Navigate to EventsPage
+                    Intent intent = new Intent(LoginActivity.this, EventsPage.class);
+                    startActivity(intent);
+                    finish(); // Prevent returning to login screen
+                } else {
+                    Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
-    // Handle login logic
-    private void onLogin() {
-        String email = usernameEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
-
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Enter your email and password!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Sign in with Firebase Authentication
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Successfully Logged in!", Toast.LENGTH_SHORT).show();
-                        navigateToHomePage();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Authentication Failed: " +
-                                        (task.getException() != null ? task.getException().getMessage() : "Unknown error"),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void navigateToHomePage() {
-        Intent intent = new Intent(this, EventsPage.class);
-        startActivity(intent);
-        finish();
+    private boolean isValidLogin(String username, String password) {
+        // Your existing login validation logic here
+        return !username.isEmpty() && !password.isEmpty();
     }
 }
