@@ -71,7 +71,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.1.0")
 
     // Add Firebase dependencies
-    implementation("com.google.firebase:firebase-analytics")  // Example: Firebase Analytics
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.firestore)  // Example: Firebase Analytics
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

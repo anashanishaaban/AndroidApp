@@ -11,17 +11,23 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class EventsPage extends AppCompatActivity {
     private LinearLayout events;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
+        db = FirebaseFirestore.getInstance();
+
         events = findViewById(R.id.events);
         Button logoutButton = findViewById(R.id.logoutButton);
+        Button addEventButton = findViewById(R.id.addEventButton);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,47 +44,65 @@ public class EventsPage extends AppCompatActivity {
             }
         });
 
-        AddEvent(
-                "The Civility Project ",
-                "September 30, 2024",
-                "6:00 PM - 7:00PM",
-                "Pasant Theater, Wharton Center",
-                -84.4707142946247,
-                42.72390930325365);
+        // Add Event button logic
+        addEventButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EventsPage.this, AddEventActivity.class);
+            startActivity(intent);
+        });
 
-        AddEvent(
-                "UAB Member Connect  ",
-                "October 1, 2024",
-                "5:00 PM - 6:00PM",
-                "MSU Union, Lake Ontario Room, 3rd Floor",
-                -84.48286991610922,
-                42.73428445659781);
+        fetchEventsFromFirebase();
 
-        AddEvent(
-                "Global Learning Expo",
-                "October 2, 2024",
-                "1:00 PM - 5:00PM",
-                "Breslin Center",
-                -84.4922975258043,
-                42.72818447405987
-        );
     }
 
-    private void AddEvent(String name, String Date, String Time, String Location, double Longitude, double Latitude) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh the event list every time the user returns to this activity
+        fetchEventsFromFirebase();
+    }
+
+    // Method to fetch events from Firestore
+    private void fetchEventsFromFirebase() {
+        db.collection("events")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    events.removeAllViews(); // Clear any existing views
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        String name = document.getString("name");
+                        String date = document.getString("date");
+                        String time = document.getString("time");
+                        String location = document.getString("location");
+                        double latitude = document.getDouble("latitude");
+                        double longitude = document.getDouble("longitude");
+
+                        // Add each event to the layout dynamically
+                        addEventToLayout(name, date, time, location, latitude, longitude);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to load events: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    // Method to add event to the layout dynamically
+    private void addEventToLayout(String name, String date, String time, String location, double latitude, double longitude) {
         View item = LayoutInflater.from(this).inflate(R.layout.event_item, events, false);
         TextView eventView = item.findViewById(R.id.eventView);
-        Button DetailsButton = item.findViewById(R.id.DetailsButton);
+        Button detailsButton = item.findViewById(R.id.DetailsButton);
 
+        // Set event name and button color
         eventView.setText(name);
-        DetailsButton.setBackgroundColor(Color.rgb(24, 69, 59));
+        detailsButton.setBackgroundColor(Color.rgb(24, 69, 59));
 
-        DetailsButton.setOnClickListener(new View.OnClickListener() {
+        // Set click listener for the "Details" button
+        detailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDetails(name, Date, Time, Location, Longitude, Latitude);
+                onDetails(name, date, time, location, latitude, longitude);
             }
         });
 
+        // Add the event view to the layout
         events.addView(item);
     }
 
@@ -89,8 +113,9 @@ public class EventsPage extends AppCompatActivity {
         intent.putExtra("date", Date);
         intent.putExtra("time", Time);
         intent.putExtra("location", Location);
-        intent.putExtra("longitude", Longitude);
         intent.putExtra("latitude", Latitude);
+        intent.putExtra("longitude", Longitude);
+
         startActivity(intent);
     }
 }
