@@ -1,13 +1,20 @@
 // Module-level (app) build.gradle.kts
+import java.util.Properties
+
 
 plugins {
     id("com.android.application")           // Apply the Android Application plugin
-    id("com.google.gms.google-services")     // Apply the Google services plugin
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.campuseventsscheduler"
     compileSdk = 34
+
+    buildFeatures {
+        buildConfig = true
+    }
+
 
     defaultConfig {
         applicationId = "com.example.campuseventsscheduler"
@@ -17,6 +24,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Read from local.properties
+        val properties = Properties()
+        project.rootProject.file("local.properties").inputStream().use {
+            properties.load(it)
+        }
+
+        buildConfigField(
+            type = "String",
+            name = "MAPS_API_KEY",
+            value = properties.getProperty("MAPS_API_KEY")?.let { "\"$it\"" } ?: "\"\""
+        )
+
+        manifestPlaceholders["MAPS_API_KEY"] = properties.getProperty("MAPS_API_KEY") ?: ""
     }
 
     buildTypes {
