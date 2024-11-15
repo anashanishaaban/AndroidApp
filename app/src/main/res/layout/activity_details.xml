@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background = "#FFF8DC"
+    android:padding="16dp">
+
+
+    <TextView
+        android:id="@+id/EventName"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle = "bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/EventDate"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text = "@string/eventDate"
+        android:textSize="18sp"
+        android:textStyle = "bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/EventTime"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text = "@string/eventTime"
+        android:textSize="18sp"
+        android:textStyle = "bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/EventLocation"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text = "@string/eventLocation"
+        android:textSize="18sp"
+        android:textStyle = "bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text = "@string/eventMapView"
+        android:textSize="18sp"
+        android:textStyle = "bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <Button
+        android:id = "@+id/BackButton"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/backToEvents"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+
+
+
+</TableLayout>
