@@ -68,6 +68,8 @@ dependencies {
     // Import the Firebase BoM to manage Firebase versions
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
 
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+
     // Add Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")  // Example: Firebase Analytics
 
