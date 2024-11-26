@@ -3,7 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ffffff"
     android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Sign Up"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_marginBottom="24dp" />
 
     <EditText
         android:id="@+id/emailEditText"
@@ -30,5 +40,15 @@
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#18453B"
+        android:layout_marginTop="16dp"
         android:text="Sign Up"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#18453B"
+        android:text="Cancel" />
+
 </LinearLayout>

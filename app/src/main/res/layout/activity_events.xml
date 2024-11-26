@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFF8DC"
+    android:background="#ffffff"
     android:padding="16dp">
 
     <!-- Header: Fixed at the top -->
@@ -14,51 +14,58 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="@string/eventsList"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_alignParentTop="true" />
+
+    <!-- Add Event and Logout Buttons in the Same Row -->
+    <LinearLayout
+        android:id="@+id/buttonsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addEventButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="#184539"
+            android:text="Add Event"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#184539"
+            android:text="Logout"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <!-- Scrollable area for the events list -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/headerTextView"
-        android:layout_above="@id/logoutButton">
+        android:layout_height="match_parent"
+        android:layout_below="@id/buttonsContainer"
+        android:layout_marginTop="16dp">
 
         <LinearLayout
             android:id="@+id/events"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-
     </ScrollView>
 
-    <!-- Add Event Button -->
-    <Button
-        android:id="@+id/addEventButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@id/logoutButton"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#184539"
-        android:text="+"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/circle_button_shape" />
-
-    <!-- Logout Button -->
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#184539"
-        android:text="Logout" />
-
 </RelativeLayout>
+
+

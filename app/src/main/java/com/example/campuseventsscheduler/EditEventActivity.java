@@ -44,6 +44,8 @@ public class EditEventActivity extends AppCompatActivity {
         latitudeEditText = findViewById(R.id.latitudeEditText);
         longitudeEditText = findViewById(R.id.longitudeEditText);
         saveChangesButton = findViewById(R.id.submitEventButton);
+        Button cancelButton = findViewById(R.id.cancelButton); // Reference the cancel button
+
 
         // Initialize the date picker
         eventDateEditText.setOnClickListener(v -> showDatePicker());
@@ -56,6 +58,11 @@ public class EditEventActivity extends AppCompatActivity {
 
         // Set click listener for saving changes
         saveChangesButton.setOnClickListener(v -> saveEventChanges());
+
+        // Set click listener for the Cancel button
+        cancelButton.setOnClickListener(v -> finish()); // Close the activity and go back
+
+
     }
 
     private void showDatePicker() {

@@ -3,7 +3,10 @@
     <style name="Base.Theme.CampusEventsScheduler" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">#c2ffd2</item>
     </style>
 
-    <style name="Theme.CampusEventsScheduler" parent="Base.Theme.CampusEventsScheduler" />
+    <style name="Theme.CampusEventsScheduler" parent="Base.Theme.CampusEventsScheduler" >
+    <item name="android:windowBackground">#c2ffd2</item>
+    </style>
 </resources>

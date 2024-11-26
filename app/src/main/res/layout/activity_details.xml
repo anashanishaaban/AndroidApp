@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF8DC"
+    android:background="#ffffff"
     android:fillViewport="true">
 
     <TableLayout
@@ -16,88 +15,111 @@
             android:id="@+id/EventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
-        <!-- Event Creator (directly under Event Name) -->
         <TextView
             android:id="@+id/EventCreator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="Created by: "
             android:textSize="16sp"
             android:textStyle="normal" />
 
+        <!-- Edit and Back Buttons in a Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            >
+
+            <Button
+                android:id="@+id/EditButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:text="Edit Event"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/BackButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:text="@string/backToEvents" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/EventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
             android:text="@string/eventDate"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/EventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/eventTime"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/EventLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/eventLocation"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/DistanceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/eventMapView"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
 
-        <!-- Forest Green Frame -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="400dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="16dp"
@@ -105,42 +127,20 @@
             app:cardBackgroundColor="#18453B"
             app:cardUseCompatPadding="true">
 
-                <FrameLayout
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="#FFF">
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:background="#FFF">
-
-                    <fragment
-                        android:id="@+id/map"
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                </FrameLayout>
+                    android:layout_height="match_parent" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
 
-        <Button
-            android:id="@+id/BackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/backToEvents" />
-
-        <Button
-            android:id="@+id/EditButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:text="Edit Event"
-            android:visibility="gone" />
-
-
     </TableLayout>
-
 </ScrollView>

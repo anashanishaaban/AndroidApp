@@ -44,9 +44,16 @@ public class AddEventActivity extends AppCompatActivity {
         longitudeEditText = findViewById(R.id.longitudeEditText);
         submitEventButton = findViewById(R.id.submitEventButton);
 
+        Button cancelButton = findViewById(R.id.cancelButton); // Reference the Cancel button
+
         eventDateEditText.setOnClickListener(v -> showDatePicker());
 
         submitEventButton.setOnClickListener(v -> addEventToFirestore());
+
+        // Set click listener for the Cancel button
+        cancelButton.setOnClickListener(v -> {
+            finish(); // Close the AddEventActivity and go back to the previous screen
+        });
 
     }
 

@@ -111,6 +111,7 @@ public class EventsPage extends AppCompatActivity {
         TextView eventView = item.findViewById(R.id.eventView);
         Button detailsButton = item.findViewById(R.id.DetailsButton);
 
+
         // Set event name and date
         eventView.setText(name);
         detailsButton.setBackgroundColor(Color.rgb(24, 69, 59));

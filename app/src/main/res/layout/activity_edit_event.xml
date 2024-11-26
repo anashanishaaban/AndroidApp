@@ -8,19 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="#ffffff"
         android:padding="16dp">
 
         <!-- Title for Edit Event -->
         <TextView
-            android:id="@+id/editEventTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/headerTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Event"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:layout_gravity="center" />
+            android:padding="8dp"
+            android:text="Edit Event"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true" />
 
         <!-- Event Name Input -->
         <EditText
@@ -72,6 +73,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save Changes"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#18453B"
+            />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:backgroundTint="#18453B"
+            android:layout_marginTop="8dp"
+
+            />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

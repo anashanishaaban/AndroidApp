@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF8DC"
     android:orientation="vertical"
-    android:stretchColumns="1"
-    tools:content=".LoginActivity">
+    android:background="#ffffff"
+    android:padding="16dp">
 
     <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textStyle="bold"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_marginBottom="24dp" />
 
     <EditText
         android:id="@+id/usernameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/userName"
         android:inputType="textEmailAddress"
-        android:background="@color/white"
         android:autofillHints="username"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="16dp" />
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:background="@color/white"
+        android:inputType="textPassword"
         android:autofillHints="password"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login" />
+        android:backgroundTint="#18453B"
+        android:text="@string/login"
+         />
 
-    <!-- New Sign Up Button -->
+    <Button
+        android:id="@+id/resendEmailButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#18453B"
+        android:text="Resend Verification Email"
+         />
+
     <Button
         android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:layout_marginTop="8dp" />
-
-</TableLayout>
+        android:backgroundTint="#18453B"
+        android:text="Sign Up" />
+</LinearLayout>

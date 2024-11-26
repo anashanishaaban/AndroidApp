@@ -67,8 +67,9 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         EventLocation = findViewById(R.id.EventLocation);
         EventCreator = findViewById(R.id.EventCreator);
         DistanceText = findViewById(R.id.DistanceText);
-        BackButton = findViewById(R.id.BackButton);
         EditButton = findViewById(R.id.EditButton);
+        BackButton = findViewById(R.id.BackButton);
+
 
         // Get event ID and owner ID from Intent
         Intent intent = getIntent();
