@@ -4,9 +4,7 @@
 
     <solid android:color="#184539" /> <!-- Background color -->
     <size
-        android:width="60dp"
-        android:height="60dp" /> <!-- Ensure the button is circular -->
-    <stroke
-        android:width="2dp"
-        android:color="#FFFFFF" /> <!-- Optional: Add a border -->
+        android:width="64dp"
+        android:height="64dp" /> <!-- Ensure the button is circular -->
+
 </shape>

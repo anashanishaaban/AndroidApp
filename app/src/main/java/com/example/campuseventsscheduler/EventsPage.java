@@ -1,5 +1,8 @@
+//EventsPage.java
+
 package com.example.campuseventsscheduler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,6 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class EventsPage extends AppCompatActivity {
     private LinearLayout events;
@@ -69,14 +76,28 @@ public class EventsPage extends AppCompatActivity {
                     events.removeAllViews(); // Clear any existing views
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         String name = document.getString("name");
-                        String date = document.getString("date");
+
+                        // Handle the date field as a timestamp
+                        com.google.firebase.Timestamp timestamp = document.getTimestamp("date");
+                        Date date = timestamp != null ? timestamp.toDate() : null;
+
                         String time = document.getString("time");
                         String location = document.getString("location");
-                        double latitude = document.getDouble("latitude");
-                        double longitude = document.getDouble("longitude");
+
+                        // Handle latitude and longitude with null safety
+                        Double latitude = document.getDouble("latitude");
+                        Double longitude = document.getDouble("longitude");
+                        if (latitude == null || longitude == null) {
+                            Toast.makeText(this, "Invalid event data", Toast.LENGTH_SHORT).show();
+                            continue; // Skip this document
+                        }
+
+                        String eventId = document.getId();
+                        String userId = document.getString("userId");
+                        String userEmail = document.getString("userEmail");
 
                         // Add each event to the layout dynamically
-                        addEventToLayout(name, date, time, location, latitude, longitude);
+                        addEventToLayout(name, date, time, location, latitude, longitude, eventId, userId, userEmail);
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -85,36 +106,39 @@ public class EventsPage extends AppCompatActivity {
     }
 
     // Method to add event to the layout dynamically
-    private void addEventToLayout(String name, String date, String time, String location, double latitude, double longitude) {
+    private void addEventToLayout(String name, Date date, String time, String location, double latitude, double longitude, String eventId, String userId, String userEmail) {
         View item = LayoutInflater.from(this).inflate(R.layout.event_item, events, false);
         TextView eventView = item.findViewById(R.id.eventView);
         Button detailsButton = item.findViewById(R.id.DetailsButton);
 
-        // Set event name and button color
+        // Set event name and date
         eventView.setText(name);
         detailsButton.setBackgroundColor(Color.rgb(24, 69, 59));
 
         // Set click listener for the "Details" button
-        detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDetails(name, date, time, location, latitude, longitude);
-            }
-        });
+        detailsButton.setOnClickListener(v -> onDetails(name, date, time, location, latitude, longitude, eventId, userId, userEmail));
 
         // Add the event view to the layout
         events.addView(item);
     }
 
-    private void onDetails(String name, String Date, String Time, String Location, double Longitude, double Latitude) {
+    private void onDetails(String name, Date date, String Time, String Location, double Latitude, double Longitude, String eventId, String userId, String userEmail) {
         Toast.makeText(this, "Details for " + name, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("name", name);
-        intent.putExtra("date", Date);
+
+        // Pass the date as a long to avoid serialization issues
+        if (date != null) {
+            intent.putExtra("date", date.getTime()); // Pass date as a timestamp
+        }
+
         intent.putExtra("time", Time);
         intent.putExtra("location", Location);
         intent.putExtra("latitude", Latitude);
         intent.putExtra("longitude", Longitude);
+        intent.putExtra("eventId", eventId);
+        intent.putExtra("userId", userId);
+        intent.putExtra("userEmail", userEmail); // Pass the email
 
         startActivity(intent);
     }

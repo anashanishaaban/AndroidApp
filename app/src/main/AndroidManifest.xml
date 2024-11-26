@@ -43,6 +43,10 @@
         <activity android:name=".AddEventActivity"
             android:exported="true"/>
 
+        <activity android:name=".EditEventActivity"
+            android:exported="true"/>
+
+
     </application>
 
 </manifest>

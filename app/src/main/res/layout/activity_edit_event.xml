@@ -1,41 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Title for Edit Event -->
+        <TextView
+            android:id="@+id/editEventTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Event"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:layout_gravity="center" />
+
+        <!-- Event Name Input -->
         <EditText
             android:id="@+id/eventNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Event Name" />
 
+        <!-- Event Date Input -->
         <EditText
             android:id="@+id/eventDateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event Date"
-            android:focusable="false"
-            android:clickable="true" />
+            android:hint="Event Date (e.g., YYYY-MM-DD)" />
 
+        <!-- Event Time Input -->
         <EditText
             android:id="@+id/eventTimeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Event Time (e.g., HH:MM AM/PM)" />
 
+        <!-- Event Location Input -->
         <EditText
             android:id="@+id/eventLocationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Event Location" />
 
+        <!-- Latitude Input -->
         <EditText
             android:id="@+id/latitudeEditText"
             android:layout_width="match_parent"
@@ -43,6 +58,7 @@
             android:hint="Latitude"
             android:inputType="numberDecimal|numberSigned" />
 
+        <!-- Longitude Input -->
         <EditText
             android:id="@+id/longitudeEditText"
             android:layout_width="match_parent"
@@ -50,14 +66,12 @@
             android:hint="Longitude"
             android:inputType="numberDecimal|numberSigned" />
 
-
-
+        <!-- Save Changes Button -->
         <Button
             android:id="@+id/submitEventButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit Event" />
+            android:text="Save Changes"
+            android:layout_marginTop="16dp" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

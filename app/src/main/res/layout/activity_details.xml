@@ -24,6 +24,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Event Creator (directly under Event Name) -->
+        <TextView
+            android:id="@+id/EventCreator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Created by: "
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
         <TextView
             android:id="@+id/EventDate"
             android:layout_width="wrap_content"
@@ -82,12 +94,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <!-- Forest Green Frame -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="20dp" />
+            android:layout_height="400dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="13dp"
+            app:cardBackgroundColor="#18453B"
+            app:cardUseCompatPadding="true">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:background="#FFF">
+
+                    <fragment
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
 
         <Button
             android:id="@+id/BackButton"
@@ -97,6 +129,17 @@
             android:layout_marginTop="60dp"
             android:layout_marginEnd="20dp"
             android:text="@string/backToEvents" />
+
+        <Button
+            android:id="@+id/EditButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="Edit Event"
+            android:visibility="gone" />
+
 
     </TableLayout>
 
