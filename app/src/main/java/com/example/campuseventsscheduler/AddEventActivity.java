@@ -13,8 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,11 +28,21 @@ public class AddEventActivity extends AppCompatActivity {
     private EditText eventNameEditText, eventDateEditText, eventTimeEditText, eventLocationEditText, latitudeEditText, longitudeEditText;
     private Button submitEventButton;
     private FirebaseFirestore db;
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Date selectedDate; // To store the selected date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check user email
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null || !currentUser.getEmail().endsWith("@msu.edu")) {
+            Toast.makeText(this, "You are not authorized to create events.", Toast.LENGTH_SHORT).show();
+            finish(); // Close the activity
+            return;
+        }
+
         setContentView(R.layout.activity_add_event);
 
         db = FirebaseFirestore.getInstance();

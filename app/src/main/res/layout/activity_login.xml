@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/customGreen"
             android:text="@string/login"
+            android:textSize="18sp"
             android:layout_marginBottom="16dp" />
 
         <!-- Resend Verification Email Link -->
@@ -58,9 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Resend verification email?"
-            android:textColor="#920B3E26"
+            android:textColor="@color/msuGreen"
             android:layout_marginBottom="16dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
 
             android:clickable="true"
             android:focusable="true" />
@@ -71,8 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't have an account yet?"
-            android:textColor="#920B3E26"
-            android:textSize="20sp"
+            android:textColor="@color/msuGreen"
+            android:textSize="18sp"
 
             android:clickable="true"
             android:focusable="true" />

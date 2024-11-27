@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffffff"
     android:padding="16dp">
 
@@ -29,16 +30,31 @@
 
         android:orientation="horizontal">
 
+        <!-- Tooltip Icon -->
+        <ImageView
+            android:id="@+id/addEventTooltip"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_question_mark"
+            android:contentDescription="Why Add Event is Disabled"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp" />
+
         <Button
             android:id="@+id/addEventButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
-            android:backgroundTint="#184539"
+            android:backgroundTint="@color/customGreen"
             android:text="Add Event"
             android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:alpha="1.0"
+            android:enabled="true"
+            tools:ignore="ButtonStyle"/>
 
         <Button
             android:id="@+id/logoutButton"
@@ -46,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
-            android:backgroundTint="#184539"
+            android:backgroundTint="@color/customGreen"
             android:text="Logout"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />

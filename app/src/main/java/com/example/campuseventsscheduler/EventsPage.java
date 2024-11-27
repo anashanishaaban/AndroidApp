@@ -9,11 +9,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -35,31 +41,59 @@ public class EventsPage extends AppCompatActivity {
         events = findViewById(R.id.events);
         Button logoutButton = findViewById(R.id.logoutButton);
         Button addEventButton = findViewById(R.id.addEventButton);
+        ImageView addEventTooltip = findViewById(R.id.addEventTooltip);
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isLoggedIn", false);
-                editor.apply();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                Intent intent = new Intent(EventsPage.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+        // Manage Add Event button based on email domain
+        if (currentUser != null && currentUser.getEmail() != null) {
+            String email = currentUser.getEmail();
+            if (email.endsWith("@msu.edu")) {
+                // Allow users with @msu.edu email to add events
+                addEventButton.setEnabled(true);
+                addEventButton.setAlpha(1.0f);
+                addEventTooltip.setVisibility(View.GONE);
+                addEventButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(EventsPage.this, AddEventActivity.class);
+                    startActivity(intent);
+                });
+            } else {
+                // Disable Add Event button for non-MSU users
+                addEventButton.setEnabled(false);
+                addEventButton.setAlpha(0.5f);
+                addEventTooltip.setVisibility(View.VISIBLE);
+                addEventTooltip.setOnClickListener(v -> showTooltip());
             }
-        });
+        } else {
+            // Disable Add Event button if the user is not logged in
+            addEventButton.setEnabled(false);
+            addEventButton.setAlpha(0.5f);
+            addEventTooltip.setVisibility(View.VISIBLE);
+            addEventTooltip.setOnClickListener(v -> showTooltip());
+        }
 
-        // Add Event button logic
-        addEventButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EventsPage.this, AddEventActivity.class);
+        logoutButton.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isLoggedIn", false);
+            editor.apply();
+
+            FirebaseAuth.getInstance().signOut();
+
+            Intent intent = new Intent(EventsPage.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         });
 
         fetchEventsFromFirebase();
-
     }
+
+    private void showTooltip() {
+        // Show a simple toast or dialog
+        Toast.makeText(this, "Only users with a verified @msu.edu email can add new events.", Toast.LENGTH_LONG).show();
+    }
+
 
     @Override
     protected void onResume() {
@@ -114,7 +148,6 @@ public class EventsPage extends AppCompatActivity {
 
         // Set event name and date
         eventView.setText(name);
-        detailsButton.setBackgroundColor(Color.rgb(24, 69, 59));
 
         // Set click listener for the "Details" button
         detailsButton.setOnClickListener(v -> onDetails(name, date, time, location, latitude, longitude, eventId, userId, userEmail));

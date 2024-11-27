@@ -1,5 +1,7 @@
+//LoginActivity.java
 package com.example.campuseventsscheduler;
 
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -16,8 +18,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
-    private TextView signUpLink;
-    private TextView resendEmailLink;
+    private TextView signUpLink; // Changed to TextView for consistency
+    private TextView resendEmailLink; // Changed to TextView for consistency
+
+    private SharedPreferences sharedPreferences;
+    private static final String PREF_NAME = "LoginPrefs";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -25,11 +31,32 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        // Check if user is already logged in
+        if (sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)) {
+            auth = FirebaseAuth.getInstance();
+            currentUser = auth.getCurrentUser();
+            if (currentUser != null && currentUser.isEmailVerified()) {
+                // Navigate directly to EventsPage if logged in and verified
+                startActivity(new Intent(LoginActivity.this, EventsPage.class));
+                finish(); // Prevent returning to the login screen
+                return;
+            } else {
+                // Sign out user if not verified
+                auth.signOut();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(KEY_IS_LOGGED_IN, false);
+                editor.apply();
+            }
+        }
+
         setContentView(R.layout.activity_login);
 
         // Initialize FirebaseAuth
         auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
 
         // Initialize UI components
         usernameEditText = findViewById(R.id.usernameEditText);
@@ -50,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Resend Verification Email logic
+        // Resend Verification Email link logic
         resendEmailLink.setOnClickListener(v -> {
             if (currentUser != null) {
                 currentUser.sendEmailVerification()
@@ -62,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                Toast.makeText(LoginActivity.this, "Please login first.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Please log in first.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -77,16 +104,23 @@ public class LoginActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = auth.getCurrentUser();
-                        if (user != null && user.isEmailVerified()) {
+                        currentUser = auth.getCurrentUser();
+                        if (currentUser != null && currentUser.isEmailVerified()) {
+                            // Save login state in SharedPreferences
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean(KEY_IS_LOGGED_IN, true);
+                            editor.apply();
+
                             // Navigate to EventsPage
                             Intent intent = new Intent(LoginActivity.this, EventsPage.class);
                             startActivity(intent);
-                            finish();
+                            finish(); // Prevent returning to login screen
                         } else {
                             Toast.makeText(LoginActivity.this, "Please verify your email address.", Toast.LENGTH_LONG).show();
+                            auth.signOut(); // Sign out the user
                         }
                     } else {
+                        // Login failed
                         Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
