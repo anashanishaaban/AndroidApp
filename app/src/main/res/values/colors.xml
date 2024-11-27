@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="msuGreen">#18453B</color>
+    <color name="customGreen">#6511663F</color>
+
 </resources>

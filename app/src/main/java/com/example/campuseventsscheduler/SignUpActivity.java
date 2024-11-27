@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -15,7 +18,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private Button signUpButton;
-    private Button cancelButton; // Add the cancel button
+    private TextView cancelLink; // Replace Button with TextView
     private FirebaseAuth mAuth;
 
     @Override
@@ -31,12 +34,13 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         signUpButton = findViewById(R.id.signUpButton);
-        cancelButton = findViewById(R.id.cancelButton); // Find the cancel button
+        cancelLink = findViewById(R.id.cancelLink); // Find the TextView
 
         // Set click listener for the sign-up button
         signUpButton.setOnClickListener(v -> registerUser());
-        // Set click listener for the cancel button
-        cancelButton.setOnClickListener(v -> navigateToLogin());
+
+        // Set click listener for the cancel link
+        cancelLink.setOnClickListener(v -> navigateToLogin());
     }
 
     private void registerUser() {

@@ -6,6 +6,7 @@
     android:background="#ffffff"
     android:padding="16dp">
 
+    <!-- Title Text -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,40 +16,50 @@
         android:textSize="30sp"
         android:layout_marginBottom="24dp" />
 
+    <!-- Email Input -->
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress" />
 
+    <!-- Password Input -->
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
+    <!-- Confirm Password Input -->
     <EditText
         android:id="@+id/confirmPasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Confirm Password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
+    <!-- Sign Up Button -->
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#18453B"
+        android:backgroundTint="@color/customGreen"
         android:layout_marginTop="16dp"
-        android:text="Sign Up"/>
+        android:text="Sign Up" />
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="match_parent"
+    <!-- Cancel Link -->
+    <TextView
+        android:id="@+id/cancelLink"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#18453B"
-        android:text="Cancel" />
-
+        android:gravity="center"
+        android:text="Cancel"
+        android:textColor="@color/customGreen"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center" />
 </LinearLayout>

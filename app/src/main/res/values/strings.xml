@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">Spartan Scheduler</string>
-    <string name="userName">Username</string>
-    <string name="password">Password</string>
+    <string name="app_name">spartan scheduler</string>
+    <string name="userName">Enter Your Email:</string>
+    <string name="password">Enter Your Password:</string>
     <string name="login">Login</string>
     <string name="eventName">Event name</string>
     <string name="eventDetails">Details</string>
     <string name= "eventDate">Date: </string>
     <string name="eventTime">Time: </string>
     <string name= "eventLocation">Location: </string>
-    <string name="eventMapView">Click to get directions in Google Maps:</string>
+    <string name="eventMapView">Get directions in Google Maps:</string>
     <string name="backToEvents">Back to Events</string>
     <string name="eventsList">Current Events</string>
 </resources>

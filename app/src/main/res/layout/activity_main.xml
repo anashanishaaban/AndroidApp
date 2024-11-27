@@ -3,56 +3,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:background="#ffffff"
     android:padding="16dp">
 
+    <!-- Spartan Scheduler Text -->
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/app_name"
-        android:textStyle="bold"
-        android:textSize="30sp"
+        android:text="spartan\nscheduler"
+        android:textColor="#920B3E26"
+        android:fontFamily="@font/classica"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        android:layout_marginBottom="8dp"
+        android:lineSpacingExtra="8dp" />
+
+    <!-- Description Text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Explore and manage events on Michigan State University campus. Sign up to RSVP. Sign up with MSU email to add your events and RSVP."
+        android:textSize="19sp"
         android:layout_marginBottom="24dp" />
 
-    <EditText
-        android:id="@+id/usernameEditText"
+    <!-- Login and Sign Up Buttons -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/userName"
-        android:inputType="textEmailAddress"
-        android:autofillHints="username"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:gravity="center">
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:autofillHints="password"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/LoginButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/customGreen"
+            android:text="Login"
+            android:textSize="19sp"
+            android:layout_marginEnd="8dp" />
 
-    <Button
-        android:id="@+id/LoginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#18453B"
-        android:text="@string/login"
-         />
-
-    <Button
-        android:id="@+id/resendEmailButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#18453B"
-        android:text="Resend Verification Email"
-         />
-
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#18453B"
-        android:text="Sign Up" />
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/customGreen"
+            android:textSize="19sp"
+            android:text="Sign Up" />
+    </LinearLayout>
 </LinearLayout>

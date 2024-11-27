@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:padding="16dp">
+
+        <!-- Spartan Scheduler Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Login"
+            android:textColor="#920B3E26"
+            android:fontFamily="@font/gel"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Username Input -->
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/userName"
+            android:inputType="textEmailAddress"
+            android:autofillHints="username"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Password Input -->
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:autofillHints="password"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/LoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/customGreen"
+            android:text="@string/login"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Resend Verification Email Link -->
+        <TextView
+            android:id="@+id/resendEmailLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resend verification email?"
+            android:textColor="#920B3E26"
+            android:layout_marginBottom="16dp"
+            android:textSize="20sp"
+
+            android:clickable="true"
+            android:focusable="true" />
+
+        <!-- Sign Up Link -->
+        <TextView
+            android:id="@+id/signUpLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account yet?"
+            android:textColor="#920B3E26"
+            android:textSize="20sp"
+
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
