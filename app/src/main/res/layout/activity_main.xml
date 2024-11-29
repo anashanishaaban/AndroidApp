@@ -1,58 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="#ffffff"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:fillViewport="true">
 
-    <!-- Spartan Scheduler Text -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="spartan\nscheduler"
-        android:textColor="#920B3E26"
-        android:fontFamily="@font/classica"
-        android:textAlignment="center"
-        android:textSize="70sp"
-        android:layout_marginBottom="8dp"
-        android:lineSpacingExtra="8dp" />
-
-    <!-- Description Text -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Explore and manage events on Michigan State University campus."
-        android:textSize="19sp"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Login and Sign Up Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/LoginButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/customGreen"
-            android:text="Login"
-            android:textSize="19sp"
-            android:layout_marginEnd="8dp" />
+        <!-- Icon -->
 
-        <Button
-            android:id="@+id/signUpButton"
-            android:layout_width="0dp"
+        <!-- Spacer to push the content towards the center -->
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/starterIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="Event icon"
+
+            android:src="@drawable/icon_main" />
+
+        <!-- Centered Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/customGreen"
-            android:textSize="19sp"
-            android:text="Sign Up" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingBottom="16dp">
+
+            <!-- Spartan planner Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="spartan\nplanner"
+                android:textColor="@color/black"
+                android:fontFamily="@font/classica"
+                android:textAlignment="center"
+                android:textSize="70sp"
+                android:layout_marginBottom="8dp"
+                android:lineSpacingExtra="8dp" />
+
+            <!-- Description Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="explore and manage events on michigan state university campus\nwith spartan planner!"
+                android:textSize="19sp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Login and Sign Up Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/LoginButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:text="login"
+                    android:textSize="19sp"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/signUpButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:textSize="19sp"
+                    android:text="sign up" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Spacer to allow content to center vertically -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5" /> <!-- Increased weight for bottom spacer -->
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

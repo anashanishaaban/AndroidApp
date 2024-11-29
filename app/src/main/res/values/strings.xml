@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">spartan scheduler</string>
+    <string name="app_name">spartan planner</string>
     <string name="userName">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>

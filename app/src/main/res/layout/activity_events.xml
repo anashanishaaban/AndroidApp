@@ -1,87 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffffff"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Header: Fixed at the top -->
-    <TextView
-        android:id="@+id/headerTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/eventsList"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true" />
-
-    <!-- Add Event and Logout Buttons in the Same Row -->
     <LinearLayout
-        android:id="@+id/buttonsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headerTextView"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        android:orientation="horizontal">
+        <!-- Header: Fixed at the top -->
 
-        <!-- Tooltip Icon -->
-        <ImageView
-            android:id="@+id/addEventTooltip"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_question_mark"
-            android:contentDescription="Why Add Event is Disabled"
-            android:visibility="gone"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp" />
-
-        <Button
-            android:id="@+id/addEventButton"
-            android:layout_width="0dp"
+        <!-- Add Event and Logout Buttons in the Same Row -->
+        <TextView
+            android:id="@+id/headerTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="5dp"
-            android:backgroundTint="@color/customGreen"
-            android:text="Add Event"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:alpha="1.0"
-            android:enabled="true"
-            tools:ignore="ButtonStyle"/>
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/eventsList"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/buttonsContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:padding="15dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="5dp"
-            android:backgroundTint="@color/customGreen"
-            android:text="Logout"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-    <!-- Scrollable area for the events list -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/buttonsContainer"
-        android:layout_marginTop="16dp">
+            <!-- Tooltip Icon -->
+            <ImageView
+                android:id="@+id/addEventTooltip"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_question_mark"
+                android:contentDescription="Why Add Event is Disabled"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp" />
 
+            <Button
+                android:id="@+id/addEventButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:alpha="1.0"
+                android:backgroundTint="@color/black"
+                android:enabled="true"
+                android:text="Add Event"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:backgroundTint="@color/black"
+                android:text="Logout"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Scrollable area for the events list -->
         <LinearLayout
             android:id="@+id/events"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:orientation="vertical"
+            android:layout_marginTop="16dp" />
 
-</RelativeLayout>
+    </LinearLayout>
 
-
+</ScrollView>

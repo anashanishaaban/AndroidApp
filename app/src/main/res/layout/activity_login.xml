@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Login"
-            android:textColor="#920B3E26"
+            android:textColor="@color/black"
             android:fontFamily="@font/gel"
             android:textAlignment="center"
             android:textSize="40sp"
@@ -48,7 +48,7 @@
             android:id="@+id/LoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/customGreen"
+            android:backgroundTint="@color/black"
             android:text="@string/login"
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />

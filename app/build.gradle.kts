@@ -73,7 +73,7 @@ dependencies {
     // Add Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
     implementation(libs.firebase.firestore)  // Example: Firebase Analytics
-
+    implementation(libs.google.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

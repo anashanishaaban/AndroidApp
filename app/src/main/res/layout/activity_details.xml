@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:padding="16dp">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -23,17 +25,33 @@
             android:textSize="28dp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/EventCreator"
+        <!-- Attendees Count and RSVP Button in the Same Row -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:text="Created by: "
-            android:textSize="16sp"
-            android:textStyle="normal" />
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/AttendeesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attendees: 0"
+                android:textSize="16sp"
+                android:gravity="center_vertical" />
+
+            <Button
+                android:id="@+id/RsvpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RSVP?"
+                android:backgroundTint="@color/black"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
 
         <!-- Edit and Back Buttons in a Row -->
         <LinearLayout
@@ -42,8 +60,7 @@
             android:orientation="horizontal"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="15dp"
-            >
+            android:layout_marginTop="15dp">
 
             <Button
                 android:id="@+id/EditButton"
@@ -51,9 +68,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="5dp"
-
+                android:backgroundTint="@color/black"
                 android:text="Edit Event"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/BackButton"
@@ -61,9 +79,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="5dp"
-                android:text="@string/backToEvents" />
+                android:backgroundTint="@color/black"
+                android:text="@string/backToEvents"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
+        <!-- Other Event Details -->
         <TextView
             android:id="@+id/EventDate"
             android:layout_width="wrap_content"
@@ -109,21 +130,22 @@
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/EventDescription"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/eventMapView"
+            android:layout_marginBottom="10dp"
+            android:text="Description: Not provided"
             android:textSize="18sp"
-             />
+            android:textStyle="bold" />
 
+        <!-- Map CardView -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="13dp"
@@ -133,7 +155,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:background="#FFF">
 
                 <fragment
@@ -144,6 +165,17 @@
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/EventCreator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Event created by: "
+            android:textSize="16sp"
+            android:textStyle="normal" />
 
     </TableLayout>
 </ScrollView>

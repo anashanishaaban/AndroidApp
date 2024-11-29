@@ -26,11 +26,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import android.content.res.ColorStateList;
 
 public class DetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private TextView EventName;
@@ -47,6 +56,15 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     private Button EditButton;
     private String eventId;
     private String eventOwnerId;
+
+    // Member variables
+    private Button RsvpButton;
+    private TextView AttendeesCount;
+    private String currentUserId;
+    private boolean isUserAttending = false;
+    private ListenerRegistration eventListenerRegistration;
+
+    private TextView EventDescription;
 
     private FusedLocationProviderClient fusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -70,30 +88,36 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         EditButton = findViewById(R.id.EditButton);
         BackButton = findViewById(R.id.BackButton);
 
+        EventDescription = findViewById(R.id.EventDescription);
 
-        // Get event ID and owner ID from Intent
+        AttendeesCount = findViewById(R.id.AttendeesCount);
+        RsvpButton = findViewById(R.id.RsvpButton);
+
+        // Get current user ID
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } else {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            // Handle unauthenticated user appropriately
+            finish();
+            return;
+        }
+
+        // Set up RSVP button click listener
+        RsvpButton.setOnClickListener(v -> handleRsvp());
+
+        // Get event ID from Intent
         Intent intent = getIntent();
         eventId = intent.getStringExtra("eventId");
-        eventOwnerId = intent.getStringExtra("userId");
 
-        BackButton.setBackgroundColor(Color.rgb(24, 69, 59));
-        EditButton.setBackgroundColor(Color.rgb(24, 69, 59));
+        if (eventId == null) {
+            Toast.makeText(this, "Event ID not provided", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         // Back button logic
         BackButton.setOnClickListener(v -> onBack());
-
-        // Check user permission for editing
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (!currentUserId.equals(eventOwnerId)) {
-            EditButton.setVisibility(View.GONE); // Hide Edit button if the user is not the creator
-        } else {
-            EditButton.setVisibility(View.VISIBLE);
-            EditButton.setOnClickListener(v -> {
-                Intent editIntent = new Intent(DetailsActivity.this, EditEventActivity.class);
-                editIntent.putExtra("eventId", eventId); // Pass event ID to EditEventActivity
-                startActivity(editIntent);
-            });
-        }
 
         // Initialize map
         try {
@@ -125,8 +149,15 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         }
 
         DocumentReference eventRef = db.collection("events").document(eventId);
-        eventRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
+
+        // Add a snapshot listener for real-time updates
+        eventListenerRegistration = eventRef.addSnapshotListener((documentSnapshot, error) -> {
+            if (error != null) {
+                Toast.makeText(this, "Error loading event data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()) {
                 String name = documentSnapshot.getString("name");
                 com.google.firebase.Timestamp timestamp = documentSnapshot.getTimestamp("date");
                 Date date = timestamp != null ? timestamp.toDate() : null;
@@ -135,6 +166,10 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                 Double lat = documentSnapshot.getDouble("latitude");
                 Double lng = documentSnapshot.getDouble("longitude");
                 String eventEmail = documentSnapshot.getString("userEmail");
+                List<String> attendees = (List<String>) documentSnapshot.get("attendees");
+                Long attendeesCount = documentSnapshot.getLong("attendeesCount");
+                String description = documentSnapshot.getString("description");
+                EventDescription.setText("Description: " + (description != null && !description.isEmpty() ? description : "Not provided"));
 
                 // Update UI
                 EventName.setText(name);
@@ -146,9 +181,46 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                     EventDate.setText("Date: Unknown Date");
                 }
 
+                // Remove leading zero from time if it exists
+                if (time != null && time.startsWith("0")) {
+                    time = time.substring(1); // Remove the first character
+                }
                 EventTime.setText("Time: " + time);
+
                 EventLocation.setText("Location: " + location);
-                EventCreator.setText("Created by: " + (eventEmail != null ? eventEmail : "Unknown"));
+                EventCreator.setText("Event created by: " + (eventEmail != null ? eventEmail : "Unknown"));
+
+                // Update attendees count
+                AttendeesCount.setText("Attendees: " + (attendeesCount != null ? attendeesCount : 0));
+
+                // Retrieve eventOwnerId from Firestore document
+                String ownerId = documentSnapshot.getString("userId"); // Ensure this field exists in Firestore
+
+                if (ownerId == null) {
+                    Toast.makeText(this, "Event owner not found", Toast.LENGTH_SHORT).show();
+                    EditButton.setVisibility(View.GONE);
+                } else {
+                    // Check user permission for editing
+                    if (!currentUserId.equals(ownerId)) {
+                        EditButton.setVisibility(View.GONE); // Hide Edit button if the user is not the creator
+                    } else {
+                        EditButton.setVisibility(View.VISIBLE);
+                        EditButton.setOnClickListener(v -> {
+                            Intent editIntent = new Intent(DetailsActivity.this, EditEventActivity.class);
+                            editIntent.putExtra("eventId", eventId); // Pass event ID to EditEventActivity
+                            startActivity(editIntent);
+                        });
+                    }
+                }
+
+                // Check if the event is past due
+                if (date != null && isPastEvent(date)) {
+                    disableRsvpButton();
+                } else {
+                    // Check if the current user is in the attendees list
+                    isUserAttending = attendees != null && attendees.contains(currentUserId);
+                    updateRsvpButton();
+                }
 
                 // Update location data
                 if (lat != null && lng != null) {
@@ -166,9 +238,61 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
             } else {
                 Toast.makeText(this, "Event not found", Toast.LENGTH_SHORT).show();
             }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private boolean isPastEvent(Date eventDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1); // Subtract 1 day to include "1 day ago"
+        Date oneDayAgo = calendar.getTime();
+
+        return eventDate.before(oneDayAgo);
+    }
+
+    private void disableRsvpButton() {
+        RsvpButton.setEnabled(false);
+        RsvpButton.setText("Past Due");
+        RsvpButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY)); // Gray color
+    }
+
+    private void updateRsvpButton() {
+        if (isUserAttending) {
+            RsvpButton.setText("Cancel RSVP?");
+            RsvpButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF6F61"))); // Peachy red color
+        } else {
+            RsvpButton.setText("RSVP?");
+            RsvpButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000"))); // Original color
+        }
+    }
+
+    private void handleRsvp() {
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        if (isUserAttending) {
+            // User wants to cancel RSVP
+            eventRef.update(
+                    "attendees", FieldValue.arrayRemove(currentUserId),
+                    "attendeesCount", FieldValue.increment(-1)
+            ).addOnSuccessListener(aVoid -> {
+                isUserAttending = false;
+                updateRsvpButton();
+                Toast.makeText(this, "RSVP canceled", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(this, "Failed to cancel RSVP: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            // User wants to RSVP
+            eventRef.update(
+                    "attendees", FieldValue.arrayUnion(currentUserId),
+                    "attendeesCount", FieldValue.increment(1)
+            ).addOnSuccessListener(aVoid -> {
+                isUserAttending = true;
+                updateRsvpButton();
+                Toast.makeText(this, "RSVP successful", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(this, "Failed to RSVP: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     @Override
@@ -195,7 +319,6 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                 Toast.makeText(this, "Google Maps is not installed on this device.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void calculateDistance() {
@@ -213,12 +336,16 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                             // Calculate distance in meters
                             float distanceInMeters = userLocation.distanceTo(eventLocation);
 
-                            // Convert to kilometers if distance is large
-                            if (distanceInMeters >= 1000) {
-                                float distanceInKm = distanceInMeters / 1000;
-                                DistanceText.setText(String.format("Distance: %.1f km away", distanceInKm));
+                            // Convert to miles
+                            float distanceInMiles = distanceInMeters / 1609.34f; // 1 mile = 1609.34 meters
+
+                            // Format the distance and display
+                            if (distanceInMiles >= 1) {
+                                DistanceText.setText(String.format("Distance: %.1f miles away", distanceInMiles));
                             } else {
-                                DistanceText.setText(String.format("Distance: %.0f meters away", distanceInMeters));
+                                // Display smaller distances in feet
+                                float distanceInFeet = distanceInMiles * 5280; // 1 mile = 5280 feet
+                                DistanceText.setText(String.format("Distance: %.0f feet away", distanceInFeet));
                             }
                         } else {
                             DistanceText.setText("Unable to determine distance");
@@ -253,5 +380,13 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
 
     private void onBack() {
         finish(); // Close current activity and return to previous screen
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventListenerRegistration != null) {
+            eventListenerRegistration.remove();
+        }
     }
 }
